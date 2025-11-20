@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galactic Relics Shop</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+
+<body>
+  <main>
+    <div class="content">
+      <div class="header">
+        <h1>Galactic Relics Shop</h1>
+      </div>
+      <div id="shop-items">
+        <!--
+        <div class="card">
+          <img class="image" src="https://galacticrelics.coderfoundry.com/images/Products/Product1.jpeg" alt="Item 1">
+          <div class="details">
+            <h2 class="name">Celestial Coderex</h2>
+            <p class="description">
+              The Celestial Coderex is an elite portable data repository and computation device, favored by the
+              universe''s foremost navigators and explorers. With its sleek curvature, it''s designed to wrap seamlessly
+              around the user''s arm, ensuring effortless access even in the most demanding of situations. Its
+              holographic display offers intricate star maps, encrypted communications, and instantaneous analysis of
+              immediate surroundings. Beyond navigation, the Coderex is also a masterful translator, deciphering over
+              ten thousand languages, both contemporary and archaic. Equipped with droid-compatible ports, it''s primed
+              for swift data transfers, processing, and transmissions. And with its biometric security measures, users
+              can be confident that the device''s wealth of knowledge remains exclusive to them. A true gem for any
+              collector or adventurer, available exclusively at Galactic Relics and Objects.
+            </p>
+            <p class="price">$399.99</p>
+            <button>Add to Cart</button>
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+    <aside class="sidebar">
+      <label id="sidebar-toggle">
+        <svg id="cart-toggle-btn" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <input type="checkbox" id="cart-toggle" style="display: none;" />
+      </label>
+      <div class="header">
+        <div class="header-title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+          <h2>Cart</h2>
+        </div>
+        <div id="cart-total">
+          $0.00
+        </div>
+      </div>
+      <div id="cart-items">
+        <!--
+        <div class="cart-item">
+          <p class="name">Celestial Coderex</p>
+          <p class="price">$399.99</p>
+        </div> 
+        -->
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div>
+      &copy;2025 Coder Foundry
+    </div>
+    <div class="cta">
+      Learn to build this with
+      <a href="https://coderfoundry.com">Coder Foundry</a>
+    </div>
+    <div>
+      <a href="https://www.youtube.com/@CoderFoundry" target="_blank" rel="noopener noreferrer"
+        aria-label="Coder Foundry YouTube Channel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube"
+          viewBox="0 0 16 16">
+          <path
+            d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />
+        </svg>
+      </a>
+      <a href="https://github.com/coderfoundry" target="_blank" rel="noopener noreferrer"
+        aria-label="Coder Foundry GitHub Profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github"
+          viewBox="0 0 16 16">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+        </svg>
+      </a>
+      <a href="https://x.com/CoderFoundry" target="_blank" rel="noopener noreferrer"
+        aria-label="Coder Foundry Twitter/X Profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x"
+          viewBox="0 0 16 16">
+          <path
+            d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <template id="product-card-template">
+    <div class="card">
+      <img class="image" src="#">
+      <div class="details">
+        <h2 class="name">Product Name</h2>
+        <p class="description">
+          Product description goes here.
+        </p>
+        <p class="price">$0.00</p>
+        <button>Add to Cart</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="cart-item-template">
+    <div class="cart-item">
+      <p class="name">Product Name</p>
+      <p class="price">
+        <span class="qty">1</span> x <span class="cost">$0.00</span>
+        <button class="remove-btn" title="Remove item from cart">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M5.5 1C5.22386 1 5 1.22386 5 1.5C5 1.77614 5.22386 2 5.5 2H9.5C9.77614 2 10 1.77614 10 1.5C10 1.22386 9.77614 1 9.5 1H5.5ZM3 3.5C3 3.22386 3.22386 3 3.5 3H5H10H11.5C11.7761 3 12 3.22386 12 3.5C12 3.77614 11.7761 4 11.5 4H11V12C11 12.5523 10.5523 13 10 13H5C4.44772 13 4 12.5523 4 12V4L3.5 4C3.22386 4 3 3.77614 3 3.5ZM5 4H10V12H5V4Z"
+              fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </p>
+    </div>
+  </template>
+
+  <script type="module">
+    import { fetchProducts } from './js/app.js'; // Adjust path as needed
+
+    async function loadProducts() {
+      const result = await fetchProducts({ pageSize: 10 });
+
+      const container = document.getElementById('shop-items');
+      container.innerHTML = ''; // Clear previous content
+
+      if (result.success) {
+        result.value.data.forEach(product => {
+          const div = document.createElement('div');
+          div.className = 'product';
+          div.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" />
+            <strong>${product.name}</strong> - $${product.price.toFixed(2)}<br/>
+            <em>${product.category.name}</em><br/>
+            ${product.description}
+          `;
+          container.appendChild(div);
+        });
+      } else {
+        container.textContent = `Error: ${result.error}`;
+      }
+    }
+
+    loadProducts();
+  </script>
+
+</body>
+
+</html>
+

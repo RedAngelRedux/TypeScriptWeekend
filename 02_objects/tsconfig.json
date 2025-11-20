@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noEmitOnError": true,
+        "outDir": "./js",
+        "target": "es6"
+    },
+    "exclude": ["*.js"]
+}

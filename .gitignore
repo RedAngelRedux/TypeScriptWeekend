@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+.history/
+
+# Coverage reports
+coverage/
+
+# Optional: lock files (if you want to ignore them)
+# package-lock.json
+# yarn.lock
+
+# Optional: ignore test snapshots
+*.snap
+
+# Optional: ignore compiled JS if you're committing only TS
+*.js
+*.js.map
