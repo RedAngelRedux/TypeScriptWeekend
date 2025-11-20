@@ -138,16 +138,20 @@
   </template>
 
   <script type="module">
-    import { fetchProducts } from './js/app.js'; // Adjust path as needed
+    import { fetchProducts, unwrapResult } from './js/app.js'; // Adjust path as needed
 
     async function loadProducts() {
-      const result = await fetchProducts({ pageSize: 10 });
 
-      const container = document.getElementById('shop-items');
-      container.innerHTML = ''; // Clear previous content
+      try {
+        
+        //throw new Error("Oops!  I did it again."); // For testing global error handling
 
-      if (result.success) {
-        result.value.data.forEach(product => {
+        const productPage = unwrapResult(await fetchProducts({pageSize: 10}));
+
+        const container = document.getElementById('shop-items');
+        container.innerHTML = ''; // Clear previous content
+
+        productPage.data.forEach(product => {
           const div = document.createElement('div');
           div.className = 'product';
           div.innerHTML = `
@@ -157,9 +161,9 @@
             ${product.description}
           `;
           container.appendChild(div);
-        });
-      } else {
-        container.textContent = `Error: ${result.error}`;
+        }); 
+      } catch(err) {
+        throw new Error(err);
       }
     }
 

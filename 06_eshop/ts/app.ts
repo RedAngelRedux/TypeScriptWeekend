@@ -1,17 +1,31 @@
 import {type Page, type Product, type FetchProductsParams, type Result} from "./types.js"
 
 // Basic Error Handling for the Page
-function renderErrorMessage() {
+function renderErrorMessage(message:any) {
     document.body.innerHTML = `
         <div class="error-message">
             <h1>Oops!  Something went wrong</h1>
             <p>We're having trouble loading the projects.  Please try again later</p>
+            <pre style="color: red;">${message}</pre>
         </div>
     `
 }
-window.onerror = renderErrorMessage; // for sync JS
-window.onunhandledrejection = renderErrorMessage; // for async JS
-//throw new Error("Oops!  I did it again.");
+window.onerror = function (message, source, lineno, colno, error) {
+    const errorMsg = error?.message || message;
+    renderErrorMessage(errorMsg);
+};
+
+window.onunhandledrejection = function (event) {
+    const errorMsg = event.reason?.message || event.reason || 'Unknown rejection';
+    renderErrorMessage(errorMsg);
+};
+
+export function unwrapResult<T>(result: Result<T>): T {
+    if (!result.success) {
+        throw new Error(result.error);
+    }
+    return result.value;
+}
 
 // get product data from galactic relics api
 export async function fetchProducts(params: FetchProductsParams = {}): Promise<Result<Page<Product>>> {
