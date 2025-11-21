@@ -1,5 +1,6 @@
-import {type Product} from "./types.js";
+import {type Product, type OrderItem, type Order} from "./types.js";
 import { fetchProducts, unwrapResult } from "./relics-api.js";
+import { addOrderItemToLocalStorage, getOrderFromLocalStorage, getProductById, storeCatalog } from "./local-storage.js";
 
 const currencyFormatter = new Intl.NumberFormat("en-us",{
     style: "currency",
@@ -46,8 +47,10 @@ function createProductCard(product: Product): DocumentFragment {
     const name = productCard.querySelector(".name");
     const description = productCard.querySelector(".description");
     const price = productCard.querySelector(".price");
+    const button = productCard.querySelector<HTMLButtonElement>("button");
 
-    if(!name || !description || !price || (image instanceof HTMLImageElement === false)) {
+    if(!name || !description || !price  || !button
+        || (image instanceof HTMLImageElement === false)) {
         throw new Error("Product Card Template is missing the required elements");
     }
 
@@ -55,6 +58,7 @@ function createProductCard(product: Product): DocumentFragment {
     name.textContent = product.name;
     description.textContent = product.description;
     price.textContent = currencyFormatter.format(product.price);
+    button.addEventListener("click", () => addToCart(product.id));
 
     return productCard;
 }
@@ -71,15 +75,68 @@ async function renderProductList(): Promise<void> {
         const products: Array<Product> = 
             unwrapResult(await fetchProducts({pageSize: 50})).data;
 
+        // TODO:  Replace LocalStorage with Database persistence
+        // Cache the Products in Local Storage for easy reference later
+        storeCatalog(products);
+
+
         const productCards = products.map(p => createProductCard(p));        
 
         productsContainer.innerHTML = "";
         productsContainer.append(...productCards);
 
-    } catch (error) {
-        console.error(error);
-        renderErrorMessage(error);
+    } catch (err) {
+        console.error(err);
+        renderErrorMessage(err);
     }
+}
+
+async function renderCartItems(): Promise<void> {
+    try {
+        const order: Order | undefined = getOrderFromLocalStorage(1);
+        if(order !==undefined) {
+            console.log(JSON.stringify(order.orderItems,null,2));
+        }        
+    } catch (err) {
+        console.error(err);
+        renderErrorMessage(err);
+    }
+}
+
+/*
+<template id="cart-item-template">
+<div class="cart-item">
+    <p class="name">Product Name</p>
+    <p class="price">
+    <span class="qty">1</span> x <span class="cost">$0.00</span>
+    <button class="remove-btn" title="Remove item from cart">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M5.5 1C5.22386 1 5 1.22386 5 1.5C5 1.77614 5.22386 2 5.5 2H9.5C9.77614 2 10 1.77614 10 1.5C10 1.22386 9.77614 1 9.5 1H5.5ZM3 3.5C3 3.22386 3.22386 3 3.5 3H5H10H11.5C11.7761 3 12 3.22386 12 3.5C12 3.77614 11.7761 4 11.5 4H11V12C11 12.5523 10.5523 13 10 13H5C4.44772 13 4 12.5523 4 12V4L3.5 4C3.22386 4 3 3.77614 3 3.5ZM5 4H10V12H5V4Z"
+            fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+        </svg>
+    </button>
+    </p>
+</div>
+</template>
+*/
+
+
+async function addToCart(productId: number): Promise<void> {
+    
+    const product = getProductById(productId); 
+    
+    const item: OrderItem = {
+        id: 1,
+        orderId: 1,
+        productId: productId,
+        quantity: 1,
+        product: product 
+    }
+
+    addOrderItemToLocalStorage(1,item);
+
+    renderCartItems();
 }
 
 // create a shopping cart stored in local storage
