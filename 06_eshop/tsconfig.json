@@ -7,3 +7,14 @@
     },
     "exclude": ["*.js"]
 }
+
+// {
+//   "compilerOptions": {
+//     "target": "es2020",         // or "es2022", "esnext"
+//     "module": "es2022",         // or "esnext"
+//     "moduleResolution": "node",
+//     "lib": ["dom", "es2020"],   // includes browser APIs
+//     "strict": true,
+//     "esModuleInterop": true
+//   }
+// }

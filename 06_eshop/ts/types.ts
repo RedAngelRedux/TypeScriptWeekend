@@ -21,28 +21,28 @@
     ]
 }*/
 
-export type Page<Tdata extends object> = {
-    page: number,
-    totalPages: number,
-    totalItems: number,
-    data: Array<Tdata>,
-}
-
-export type Category = {
-    id: number,
-    name: string,
-    description: string,
+export type PagedResponse<Tdata extends object> = {
+    page: number;
+    totalPages: number;
+    totalItems: number;
+    data: Array<Tdata>;
 }
 
 export type Product = {
-    id: number,
-    categoryId: number,
-    name: string,
-    description: string,
-    price: number,
-    cost: number,
-    image: string,
-    category: Category,
+    id: number;
+    categoryId: number;
+    name: string;
+    description: string;
+    price: number;
+    cost: number;
+    image: string;
+    category: Category;
+}
+
+export type Category = {
+    id: number;
+    name: string;
+    description: string;
 }
 
 export type FetchProductsParams = {

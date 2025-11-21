@@ -137,8 +137,8 @@
     </div>
   </template>
 
-  <script type="module">
-    import { fetchProducts, unwrapResult } from './js/app.js'; // Adjust path as needed
+  <!-- <script type="module">
+    import { fetchProducts, unwrapResult } from './js/relics-api.js'; // Adjust path as needed
 
     async function loadProducts() {
 
@@ -146,7 +146,7 @@
         
         //throw new Error("Oops!  I did it again."); // For testing global error handling
 
-        const productPage = unwrapResult(await fetchProducts({pageSize: 10}));
+        const productPage = unwrapResult(await fetchProducts({pageSize: 50}));
 
         const container = document.getElementById('shop-items');
         container.innerHTML = ''; // Clear previous content
@@ -168,8 +168,8 @@
     }
 
     loadProducts();
-  </script>
-
+  </script> -->
+  
 </body>
 
 </html>
