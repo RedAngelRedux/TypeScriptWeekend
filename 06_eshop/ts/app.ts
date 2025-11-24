@@ -1,6 +1,6 @@
 import {type Product, type OrderItem, type Order} from "./types.js";
 import { fetchProducts, unwrapResult } from "./relics-api.js";
-import { addOrderItemToLocalStorage, getOrderFromLocalStorage, getProductById, storeCatalog } from "./local-storage.js";
+import { addOrderItemToLocalStorage, getOrderFromLocalStorage, getProductById, storeCatalog, orderTotal } from "./local-storage.js";
 
 const currencyFormatter = new Intl.NumberFormat("en-us",{
     style: "currency",
@@ -30,6 +30,7 @@ window.onunhandledrejection = function (event) {
 // Populate main section with store products using API, after the page is loaded
 document.addEventListener("DOMContentLoaded",() => {
     renderProductList();
+    renderCartItems();
 });
 
 function createProductCard(product: Product): DocumentFragment {
@@ -142,7 +143,8 @@ function createCartItemCards(lineItem: OrderItem): DocumentFragment {
     return cartItemCard;
 }
 
-async function renderCartItems(): Promise<void> {
+// TODO:  Retrieve From a Database
+function renderCartItems(): void {
     try {
 
         const cartContainer = document.getElementById("cart-items");
@@ -165,6 +167,8 @@ async function renderCartItems(): Promise<void> {
         cartContainer.innerHTML = "";
         cartContainer.append(...cartItemCards);
 
+        updateShoppingCartTotal(1);
+
     } catch (err) {
 
         console.error(err);
@@ -174,6 +178,15 @@ async function renderCartItems(): Promise<void> {
 }
 
 // track the dollar total for each item in the cart
+function updateShoppingCartTotal(orderId: number): void {
+    const cartTotal = document.getElementById("cart-total");
+    if(cartTotal instanceof HTMLElement === false) {
+        throw new Error("Could not find cart-total element");
+    }
+
+    cartTotal.innerHTML = "";
+    cartTotal.innerHTML = currencyFormatter.format(orderTotal(orderId));
+}
 
 // // BEGIN TESST CODE BLOCK
 // // create product cards for each product and add to the page

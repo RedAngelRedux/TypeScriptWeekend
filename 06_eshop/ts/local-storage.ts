@@ -29,6 +29,18 @@ const NULL_ORDER: Order = {
     orderItems: []
 }
 
+const calculateCartTotal = (items: OrderItem[]): number =>
+    items.reduce((sum, item) => sum + item.quantity * item.product.price, 0);
+
+export function orderTotal(orderId: number): number {
+    const order: Order = getOrderFromLocalStorage(orderId);
+    if(order === undefined) {
+        return 0;
+    }
+
+    return calculateCartTotal(order.orderItems);
+}
+
 export function storeCatalog(products: Product[]): void {
     const now = Date.now();
 
