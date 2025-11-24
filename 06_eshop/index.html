@@ -16,27 +16,7 @@
         <h1>Galactic Relics Shop</h1>
       </div>
       <div id="shop-items">
-        <!--
-        <div class="card">
-          <img class="image" src="https://galacticrelics.coderfoundry.com/images/Products/Product1.jpeg" alt="Item 1">
-          <div class="details">
-            <h2 class="name">Celestial Coderex</h2>
-            <p class="description">
-              The Celestial Coderex is an elite portable data repository and computation device, favored by the
-              universe''s foremost navigators and explorers. With its sleek curvature, it''s designed to wrap seamlessly
-              around the user''s arm, ensuring effortless access even in the most demanding of situations. Its
-              holographic display offers intricate star maps, encrypted communications, and instantaneous analysis of
-              immediate surroundings. Beyond navigation, the Coderex is also a masterful translator, deciphering over
-              ten thousand languages, both contemporary and archaic. Equipped with droid-compatible ports, it''s primed
-              for swift data transfers, processing, and transmissions. And with its biometric security measures, users
-              can be confident that the device''s wealth of knowledge remains exclusive to them. A true gem for any
-              collector or adventurer, available exclusively at Galactic Relics and Objects.
-            </p>
-            <p class="price">$399.99</p>
-            <button>Add to Cart</button>
-          </div>
-        </div>
-        -->
+        <!-- <template id="product-card-template"> -->
       </div>
     </div>
     <aside class="sidebar">
@@ -60,13 +40,8 @@
           $0.00
         </div>
       </div>
-      <div id="cart-items">
-        <!--
-        <div class="cart-item">
-          <p class="name">Celestial Coderex</p>
-          <p class="price">$399.99</p>
-        </div> 
-        -->
+      <div id="cart-items">        
+        <!-- <template id="cart-item-template">  -->
       </div>
     </aside>
   </main>
@@ -136,39 +111,6 @@
       </p>
     </div>
   </template>
-
-  <!-- <script type="module">
-    import { fetchProducts, unwrapResult } from './js/relics-api.js'; // Adjust path as needed
-
-    async function loadProducts() {
-
-      try {
-        
-        //throw new Error("Oops!  I did it again."); // For testing global error handling
-
-        const productPage = unwrapResult(await fetchProducts({pageSize: 50}));
-
-        const container = document.getElementById('shop-items');
-        container.innerHTML = ''; // Clear previous content
-
-        productPage.data.forEach(product => {
-          const div = document.createElement('div');
-          div.className = 'product';
-          div.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" />
-            <strong>${product.name}</strong> - $${product.price.toFixed(2)}<br/>
-            <em>${product.category.name}</em><br/>
-            ${product.description}
-          `;
-          container.appendChild(div);
-        }); 
-      } catch(err) {
-        throw new Error(err);
-      }
-    }
-
-    loadProducts();
-  </script> -->
   
 </body>
 

@@ -33,7 +33,7 @@ export type OrderItem = {
     orderId: number,
     productId: number,
     quantity: number,
-    product: Product | {},
+    product: Product,
 }
 
 export type Order = {
@@ -43,7 +43,6 @@ export type Order = {
     shipDate: string,
     userId: number,
     orderItems: Array<OrderItem> 
-    // ,
     // customer: Array<object>,
     // user: object,
 }

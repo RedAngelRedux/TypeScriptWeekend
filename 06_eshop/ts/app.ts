@@ -27,6 +27,7 @@ window.onunhandledrejection = function (event) {
     renderErrorMessage(errorMsg);
 };
 
+// Populate main section with store products using API, after the page is loaded
 document.addEventListener("DOMContentLoaded",() => {
     renderProductList();
 });
@@ -35,7 +36,7 @@ function createProductCard(product: Product): DocumentFragment {
 
     const template = document.getElementById("product-card-template");
     if(template instanceof HTMLTemplateElement === false) {
-        throw new Error("Could not fine Product Card Template!");
+        throw new Error("Could not find Product Card Template!");
     }
 
     const productCard = template.content.cloneNode(true);
@@ -91,39 +92,10 @@ async function renderProductList(): Promise<void> {
     }
 }
 
-async function renderCartItems(): Promise<void> {
-    try {
-        const order: Order | undefined = getOrderFromLocalStorage(1);
-        if(order !== undefined) {
-            //console.log(JSON.stringify(order.orderItems,null,2));
-            //console.log(`The next line item should be ${order.orderItems.lastIndexOf});
-        }        
-    } catch (err) {
-        console.error(err);
-        renderErrorMessage(err);
-    }
-}
-
-/*
-<template id="cart-item-template">
-<div class="cart-item">
-    <p class="name">Product Name</p>
-    <p class="price">
-    <span class="qty">1</span> x <span class="cost">$0.00</span>
-    <button class="remove-btn" title="Remove item from cart">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-            d="M5.5 1C5.22386 1 5 1.22386 5 1.5C5 1.77614 5.22386 2 5.5 2H9.5C9.77614 2 10 1.77614 10 1.5C10 1.22386 9.77614 1 9.5 1H5.5ZM3 3.5C3 3.22386 3.22386 3 3.5 3H5H10H11.5C11.7761 3 12 3.22386 12 3.5C12 3.77614 11.7761 4 11.5 4H11V12C11 12.5523 10.5523 13 10 13H5C4.44772 13 4 12.5523 4 12V4L3.5 4C3.22386 4 3 3.77614 3 3.5ZM5 4H10V12H5V4Z"
-            fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-        </svg>
-    </button>
-    </p>
-</div>
-</template>
-*/
-
-
+// create a shopping cart stored in local storage
 async function addToCart(productId: number): Promise<void> {
+
+    console.log("addToCart Click Detected");
     
     const product = getProductById(productId); 
     
@@ -140,8 +112,67 @@ async function addToCart(productId: number): Promise<void> {
     renderCartItems();
 }
 
-// create a shopping cart stored in local storage
 // create shopping cart elements for each item in the shopping cart
+function createCartItemCards(lineItem: OrderItem): DocumentFragment {
+
+    const template = document.getElementById("cart-item-template");
+    if(template instanceof HTMLTemplateElement === false) {
+        throw new Error("Cound not find a cart item template. ");
+    }
+
+    const cartItemCard = template.content.cloneNode(true);
+    if(cartItemCard instanceof DocumentFragment === false) {
+        throw new Error("Invalid Cart Item Card");
+    }
+
+    const name = cartItemCard.querySelector(".name");
+    const qty = cartItemCard.querySelector(".qty");
+    const cost = cartItemCard.querySelector(".cost");
+    const removeBtn = cartItemCard.querySelector<HTMLButtonElement>(".remove-btn");
+
+    if(!name || !qty || !cost || !removeBtn) {
+        throw new Error("Shopping cart Template is missing the required elements");
+    }
+
+    name.textContent =  lineItem.product.name;
+    qty.textContent = lineItem.quantity.toString();
+    cost.textContent = currencyFormatter.format(lineItem.product.price);
+    removeBtn.addEventListener("click",() => alert(`Delete ${lineItem.productId}?`));
+    
+    return cartItemCard;
+}
+
+async function renderCartItems(): Promise<void> {
+    try {
+
+        const cartContainer = document.getElementById("cart-items");
+        if(!cartContainer) {
+            throw new Error("Could not fine cart's container");
+        }
+
+        // Fetch the Order
+        const order: Order = getOrderFromLocalStorage(1);  // TODO:  Get actual order, not default to "1"
+        if(order.id === 0) {
+            console.log("Unable to fetch order from local storage");
+            return;
+        }
+
+        // Fetch the Line Items aka OrderItems
+        const orderItems : Array<OrderItem> = order.orderItems;
+
+        const cartItemCards = orderItems.map(li => createCartItemCards(li));
+
+        cartContainer.innerHTML = "";
+        cartContainer.append(...cartItemCards);
+
+    } catch (err) {
+
+        console.error(err);
+        renderErrorMessage(err);
+
+    }
+}
+
 // track the dollar total for each item in the cart
 
 // // BEGIN TESST CODE BLOCK

@@ -1,10 +1,33 @@
-import { Product } from "./types.js"; // adjust import path as needed
+import { Category, Product } from "./types.js"; // adjust import path as needed
 import {Order, OrderItem} from "./types.js"
 
 const CATALOG_KEY = "GalacticRelicsCatalog";
 const TIMESTAMP_KEY = "GalacticRelicsCatalogTimestamp";
 const CACHE_DURATION_MS = 30 * 60 * 1000; // 30 minutes
 const ORDERS_KEY = "orders";
+const NULL_CATEGORY: Category = {
+    id: 0,
+    name: "",
+    description: ""
+};
+const NULL_PRODUCT: Product = {
+    id: 0,
+    categoryId: 0,
+    name: "",
+    description: "",
+    price: 0,
+    cost: 0,
+    image: "",
+    category: NULL_CATEGORY
+};
+const NULL_ORDER: Order = {
+    id: 0,
+    customerId: 0,
+    orderDate: "",
+    shipDate: "",
+    userId: 0,
+    orderItems: []
+}
 
 export function storeCatalog(products: Product[]): void {
     const now = Date.now();
@@ -26,19 +49,20 @@ export function storeCatalog(products: Product[]): void {
     }
 }
 
-export function getProductById(productId: number): Product | {} {
+export function getProductById(productId: number): Product {
+
     const catalogStr = localStorage.getItem(CATALOG_KEY);
     if (!catalogStr) {
-        return {}; // Catalog not found
+        throw new Error("Catalog not found");
     }
 
     try {
         const products: Product[] = JSON.parse(catalogStr);
         const product = products.find(p => p.id === productId);
-        return product ?? {};
+        return (product === undefined) ? NULL_PRODUCT : product;        
     } catch (err) {
         console.error("Failed to parse catalog from localStorage:", err);
-        return {};
+        return NULL_PRODUCT;
     }
 }
 
@@ -93,16 +117,17 @@ export function addOrderItemToLocalStorage(orderId: number | null, newItem: Orde
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
 }
 
-export function getOrderFromLocalStorage(orderId: number | null): Order | undefined {
+export function getOrderFromLocalStorage(orderId: number | null): Order {
     const exiting = localStorage.getItem(ORDERS_KEY);
     let orders: Order[] = exiting ? JSON.parse(exiting) : [];
 
     let order: Order | undefined;
     if(orderId !== null) {
         order = orders.find(o => o.id === orderId);
+        order = (order === undefined) ? NULL_ORDER : order;
     }
     else {
-        order === undefined;
+        order = NULL_ORDER;
     }
 
     return order;
