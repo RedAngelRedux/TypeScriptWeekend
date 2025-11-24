@@ -94,8 +94,9 @@ async function renderProductList(): Promise<void> {
 async function renderCartItems(): Promise<void> {
     try {
         const order: Order | undefined = getOrderFromLocalStorage(1);
-        if(order !==undefined) {
-            console.log(JSON.stringify(order.orderItems,null,2));
+        if(order !== undefined) {
+            //console.log(JSON.stringify(order.orderItems,null,2));
+            //console.log(`The next line item should be ${order.orderItems.lastIndexOf});
         }        
     } catch (err) {
         console.error(err);
@@ -126,7 +127,7 @@ async function addToCart(productId: number): Promise<void> {
     
     const product = getProductById(productId); 
     
-    const item: OrderItem = {
+    let item: OrderItem = {
         id: 1,
         orderId: 1,
         productId: productId,

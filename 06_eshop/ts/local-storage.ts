@@ -55,7 +55,7 @@ function getNextOrderId(): number {
 function createNewOrder(newItem: OrderItem): Order {
     const newOrder: Order = {
         //id: getNextOrderId(),   // auto-increment ID
-        id: 1,   // TODO:  Replace with actual code
+        id: 1,   // TODO:  Replace with working Order Id auto-increment
         customerId: 0,          // fill in as needed
         orderDate: new Date().toISOString(),
         shipDate: "",
@@ -77,13 +77,15 @@ export function addOrderItemToLocalStorage(orderId: number | null, newItem: Orde
     }
 
     if (order) {
-        const existingItem = order.orderItems.find(item => item.productId === newItem.productId);
-    if (existingItem) {
-        existingItem.quantity += newItem.quantity;
+        const existingItem = order.orderItems.find(item => item.productId === newItem.productId);        
+        if (existingItem) {
+            existingItem.quantity += newItem.quantity;
+        } else {
+            newItem.id = order.orderItems.length + 1;
+            order.orderItems.push(newItem);
+        }
     } else {
-        order.orderItems.push(newItem);
-    }
-    } else {
+        newItem.orderId = 1;  // Since this is a new order, this item will be the first line-item
         const newOrder = createNewOrder(newItem);
         orders.push(newOrder);
     }
