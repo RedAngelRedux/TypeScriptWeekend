@@ -1,6 +1,6 @@
 import {type Product, type OrderItem, type Order} from "./types.js";
 import { fetchProducts, unwrapResult } from "./relics-api.js";
-import { addOrderItemToLocalStorage, getOrderFromLocalStorage, getProductById, storeCatalog, orderTotal } from "./local-storage.js";
+import { addOrderItemToLocalStorage, getOrderFromLocalStorage, getProductById, storeCatalog, orderTotal, removeOrderItemsFromOrder } from "./local-storage.js";
 
 const currencyFormatter = new Intl.NumberFormat("en-us",{
     style: "currency",
@@ -113,6 +113,11 @@ async function addToCart(productId: number): Promise<void> {
     renderCartItems();
 }
 
+async function removeFromCart(orderId: number, productId: number): Promise<void> {
+    removeOrderItemsFromOrder(orderId,productId);
+    renderCartItems();
+}
+
 // create shopping cart elements for each item in the shopping cart
 function createCartItemCards(lineItem: OrderItem): DocumentFragment {
 
@@ -138,7 +143,7 @@ function createCartItemCards(lineItem: OrderItem): DocumentFragment {
     name.textContent =  lineItem.product.name;
     qty.textContent = lineItem.quantity.toString();
     cost.textContent = currencyFormatter.format(lineItem.product.price);
-    removeBtn.addEventListener("click",() => alert(`Delete ${lineItem.productId}?`));
+    removeBtn.addEventListener("click",() => removeFromCart(1,lineItem.productId));   
     
     return cartItemCard;
 }
@@ -160,7 +165,7 @@ function renderCartItems(): void {
         }
 
         // Fetch the Line Items aka OrderItems
-        const orderItems : Array<OrderItem> = order.orderItems;
+        const orderItems : Array<OrderItem> = order.orderItems.filter(i => i.quantity > 0);
 
         const cartItemCards = orderItems.map(li => createCartItemCards(li));
 

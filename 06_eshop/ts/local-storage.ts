@@ -129,6 +129,21 @@ export function addOrderItemToLocalStorage(orderId: number | null, newItem: Orde
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
 }
 
+export function removeOrderItemsFromOrder(orderId: number, productId: number): void {
+    
+    const existingOrders = localStorage.getItem(ORDERS_KEY);    
+    const orders: Order[] = existingOrders ? JSON.parse(existingOrders) : [];
+    const order = orders.find(o => o.id === orderId);
+    let orderItems = order?.orderItems;
+
+    const existingItem = orderItems?.find(i => i.productId === productId);
+    if(existingItem) {
+        existingItem.quantity--;
+    }
+    
+    localStorage.setItem(ORDERS_KEY,JSON.stringify(orders));
+}
+
 export function getOrderFromLocalStorage(orderId: number | null): Order {
     const exiting = localStorage.getItem(ORDERS_KEY);
     let orders: Order[] = exiting ? JSON.parse(exiting) : [];
