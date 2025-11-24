@@ -47,6 +47,82 @@ export type Order = {
     // user: object,
 }
 
+// These is a 'type predicate'
+export function isOrderItem(value: unknown): value is OrderItem {
+    return (
+        value != null
+        && typeof value === 'object'
+        && 'id' in value
+        && typeof value.id === 'number'
+        && 'orderId' in value
+        && typeof value.orderId === 'number'
+        && 'productId' in value
+        && typeof value.productId === 'number'
+        && 'quantity' in value
+        && typeof value.quantity === 'number'
+        && 'product' in value
+        && isProduct(value.product)
+    );
+}
+
+export function isOrder(value: unknown): value is Order {
+    return(
+        value != null
+        && typeof value === 'object'
+        && 'id' in value
+        && typeof value.id === 'number'
+        && 'customerId' in  value
+        && typeof value.customerId === 'number'
+        && 'orderDate' in value
+        && typeof value.orderDate === 'string'
+        && 'shipDate' in value
+        && typeof value.shipDate === 'string'
+        && 'userId' in value
+        && typeof value.userId === 'number'
+        && 'orderItems' in value
+        && Array.isArray(value.orderItems) 
+        && (value as any).orderItems.every(isOrderItem)
+    );
+}
+
+export function isCategory(value: unknown): value is Category {
+    return (
+        value != null
+        && typeof value === 'object'
+        && 'id' in value
+        && typeof value.id === 'number'
+        && 'name' in value
+        && typeof value.name === 'string'
+        && 'description' in value
+        && typeof value.description === 'string'
+    );
+}
+
+export function isProduct(value: unknown): value is Product {
+
+    return (
+        value != null
+        && typeof value === 'object'
+        && 'id' in value
+        && typeof value.id === 'number'
+        && 'categoryId' in value
+        && typeof value.categoryId === 'number'
+        && 'name' in value
+        && typeof value.name === 'string'
+        && 'description' in value
+        && typeof value.description === 'string'
+        && 'price' in value
+        && typeof value.price === 'number'
+        && 'cost' in value
+        && typeof value.cost === 'number'
+        && 'image' in value
+        && typeof value.image === 'string'
+        && 'category' in value
+        && isCategory(value.category)
+    );
+}
+
+
 /* JSON for OrdersResponse
 { 
     "page": 0,

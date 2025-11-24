@@ -1,4 +1,4 @@
-import { Category, Product } from "./types.js"; // adjust import path as needed
+import { Category, isOrder, Product } from "./types.js"; // adjust import path as needed
 import {Order, OrderItem} from "./types.js"
 
 const CATALOG_KEY = "GalacticRelicsCatalog";
@@ -112,7 +112,7 @@ export function addOrderItemToLocalStorage(orderId: number | null, newItem: Orde
         order = orders.find(o => o.id === orderId);
     }
 
-    if (order) {
+    if (order !== undefined && isOrder(order)) {
         const existingItem = order.orderItems.find(item => item.productId === newItem.productId);        
         if (existingItem) {
             existingItem.quantity += newItem.quantity;
@@ -136,7 +136,7 @@ export function getOrderFromLocalStorage(orderId: number | null): Order {
     let order: Order | undefined;
     if(orderId !== null) {
         order = orders.find(o => o.id === orderId);
-        order = (order === undefined) ? NULL_ORDER : order;
+        order = (order === undefined || !isOrder(order)) ? NULL_ORDER : order;    
     }
     else {
         order = NULL_ORDER;
