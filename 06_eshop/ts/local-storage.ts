@@ -131,14 +131,26 @@ export function addOrderItemToLocalStorage(orderId: number | null, newItem: Orde
 
 export function removeOrderItemsFromOrder(orderId: number, productId: number): void {
     
-    const existingOrders = localStorage.getItem(ORDERS_KEY);    
-    const orders: Order[] = existingOrders ? JSON.parse(existingOrders) : [];
-    const order = orders.find(o => o.id === orderId);
-    let orderItems = order?.orderItems;
+    const existingOrders = localStorage.getItem(ORDERS_KEY);
+    if(existingOrders === null) return ;
+
+    let orders: Order[] = existingOrders ? JSON.parse(existingOrders) : [];
+    if(orders === undefined) return;
+
+    let order = orders.find(o => o.id === orderId);
+    if(order == undefined) return;
+
+    let orderItems = order.orderItems;
+    if(orderItems.length === 0) return;
 
     const existingItem = orderItems?.find(i => i.productId === productId);
+    if(existingItem === undefined) return;
+
     if(existingItem) {
         existingItem.quantity--;
+        if(existingItem.quantity <= 0) {
+            order.orderItems = order.orderItems.filter(i => i.productId !== productId);
+        }
     }
     
     localStorage.setItem(ORDERS_KEY,JSON.stringify(orders));
